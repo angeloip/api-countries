@@ -2,22 +2,40 @@ import { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 
-export default function Header() {
+interface Props {
+  search: string
+  setSearch: (value: string) => void
+}
+
+export default function Header({ search, setSearch }: Props) {
   const [isOpen, setIsOpen] = useState(false)
 
   const continents = ['Africa', 'America', 'Asia', 'Europe', 'Oceania']
 
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log(search)
+  }
+
   return (
     <div className="flex items-center justify-between">
-      <section className="dark:bg-[#2B3845] flex items-center py-4 rounded-lg w-[450px]">
-        <div className="px-4">
+      <form
+        onSubmit={handleSearch}
+        className="dark:bg-[#2B3845] flex items-center h-14 rounded-lg w-[450px]"
+      >
+        <div className="px-4 h-full cursor-pointer flex justify-center items-center">
           <FaSearch />
         </div>
         <input
           type="text"
           className="bg-transparent outline-none pr-2 w-full"
+          placeholder="Search for a country..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value)
+          }}
         />
-      </section>
+      </form>
       <section
         onClick={() => {
           setIsOpen((prev) => !prev)
